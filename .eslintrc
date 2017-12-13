@@ -1,0 +1,19 @@
+{
+  "extends": [
+	  "prettier-standard"
+  ],
+
+  "plugins": [
+    "babel",
+    "react"
+  ],
+
+  "env": {
+    "browser": true,
+    "jest": true,
+    "jasmine": true
+  },
+
+  "globals": {
+  }
+}

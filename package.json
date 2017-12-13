@@ -1,0 +1,57 @@
+{
+  "name": "ytbox",
+  "version": "0.1.0",
+  "description": "Youtube Jukebox",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack",
+    "start": "node index.js",
+    "start:dev": "nodemon --ignore static index.js",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/allain/ytbox.git"
+  },
+  "keywords": [
+    "YouTube",
+    "Jukebox"
+  ],
+  "author": "Allain Lalonde <allain.lalonde@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/allain/ytbox/issues"
+  },
+  "homepage": "https://github.com/allain/ytbox#readme",
+  "dependencies": {
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-react": "^6.24.1",
+    "express": "^4.16.2",
+    "youtube-mp3-downloader": "^0.5.2"
+  },
+  "devDependencies": {
+    "babel-core": "^6.0.0",
+    "babel-loader": "^6.4.1",
+    "babel-plugin-transform-react-jsx": "^6.24.1",
+    "babel-preset-env": "^1.6.1",
+    "eslint": "^4.8.0",
+    "eslint-config-prettier": "^2.6.0",
+    "eslint-config-prettier-standard": "^1.0.1",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-babel": "^4.1.2",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-node": "^5.2.0",
+    "eslint-plugin-prettier": "^2.3.1",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-react": "^7.5.1",
+    "eslint-plugin-standard": "^3.0.1",
+    "jest": "^21.2.1",
+    "preact": "^8.2.7",
+    "preact-redux": "^2.0.3",
+    "prettier": "^1.7.4",
+    "redux": "^3.7.2",
+    "redux-thunk": "^2.2.0",
+    "webpack": "^3.10.0",
+    "youtube-search": "^1.0.10"
+  }
+}
