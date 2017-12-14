@@ -1094,7 +1094,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "connect", function() { return connect; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "connectAdvanced", function() { return connectAdvanced; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_preact__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_redux__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_redux__ = __webpack_require__(3);
 
 
 
@@ -2350,174 +2350,16 @@ module.exports = g;
 
 /***/ }),
 /* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.ACTIONS = undefined;
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-exports.search = search;
-exports.download = download;
-
-var _redux = __webpack_require__(4);
-
-var _reduxThunk = __webpack_require__(28);
-
-var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
-
-var _searchYoutube = __webpack_require__(29);
-
-var _searchYoutube2 = _interopRequireDefault(_searchYoutube);
-
-var _downloadMp = __webpack_require__(30);
-
-var _downloadMp2 = _interopRequireDefault(_downloadMp);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-var INITIAL = {
-  searchText: 'Test',
-  results: [],
-  playing: null,
-  downloading: [],
-  downloaded: [],
-  failed: []
-};
-
-var ACTIONS = exports.ACTIONS = {
-  SEARCHING: function SEARCHING(state, _ref) {
-    var payload = _ref.payload;
-    var searchText = payload.searchText;
-
-    return _extends({}, state, { searchText: searchText, results: [], status: 'searching' });
-  },
-
-  SEARCH_SUCCESS: function SEARCH_SUCCESS(state, _ref2) {
-    var payload = _ref2.payload;
-    var results = payload.results;
-
-    return _extends({}, state, { results: results });
-  },
-
-  SEARCH_FAIL: function SEARCH_FAIL(state, _ref3) {
-    var payload = _ref3.payload;
-    var error = payload.error;
-
-    console.error(error);
-    return _extends({}, state, { status: 'FAILED', results: [] });
-  },
-
-  DOWNLOADING: function DOWNLOADING(state, _ref4) {
-    var payload = _ref4.payload;
-    var video = payload.video;
-
-
-    return _extends({}, state, {
-      downloading: [].concat(_toConsumableArray(state.downloading.filter(function (v) {
-        return v.id !== video.id;
-      })), [video]),
-      failed: state.failed.filter(function (v) {
-        return v.id !== video.id;
-      })
-    });
-  },
-
-  DOWNLOAD_SUCCESS: function DOWNLOAD_SUCCESS(state, _ref5) {
-    var payload = _ref5.payload;
-    var video = payload.video;
-
-
-    return _extends({}, state, {
-      downloaded: [].concat(_toConsumableArray(state.downloaded), [video]),
-      downloading: state.downloading.filter(function (v) {
-        return v.id !== video.id;
-      })
-    });
-  },
-
-  DOWNLOAD_FAIL: function DOWNLOAD_FAIL(state, _ref6) {
-    var payload = _ref6.payload;
-    var video = payload.video;
-
-
-    return _extends({}, state, {
-      downloading: state.downloading.filter(function (v) {
-        return v.id !== video.id;
-      }),
-      failed: [].concat(_toConsumableArray(state.failed), [video])
-    });
-  },
-
-  PLAY_VIDEO: function PLAY_VIDEO(state, _ref7) {
-    var payload = _ref7.payload;
-    var video = payload.video;
-
-    return _extends({}, state, { playing: video });
-  },
-
-  STOP_VIDEO: function STOP_VIDEO(state) {
-    return _extends({}, state, { playing: null });
-  }
-};
-
-function search(searchText) {
-  return function (dispatch, getState) {
-    dispatch({ type: 'SEARCHING', payload: { searchText: searchText } });
-
-    return (0, _searchYoutube2.default)(searchText).then(function (results) {
-      return dispatch({ type: 'SEARCH_SUCCESS', payload: { searchText: searchText, results: results } });
-    }).catch(function (error) {
-      return dispatch({
-        type: 'SEARCH_FAIL',
-        payload: { error: error, searchText: searchText }
-      });
-    });
-  };
-}
-
-function download(video) {
-  return function (dispatch, getState) {
-    dispatch({ type: 'DOWNLOADING', payload: { video: video } });
-    return (0, _downloadMp2.default)(video.id, function (_ref8) {
-      var progress = _ref8.progress;
-
-      dispatch({
-        type: 'DOWNLOADING',
-        payload: { video: _extends({}, video, { progress: progress }) }
-      });
-    }).then(function (downloaded) {
-      return dispatch({ type: 'DOWNLOAD_SUCCESS', payload: { video: video, download: download } });
-    }).catch(function (error) {
-      return dispatch({ type: 'DOWNLOAD_FAIL', payload: { video: video, error: error } });
-    });
-  };
-}
-
-exports.default = (0, _redux.createStore)(function (state, action) {
-  console.log(action);
-  return action && ACTIONS[action.type] ? ACTIONS[action.type](state, action) : state;
-}, INITIAL, (0, _redux.applyMiddleware)(_reduxThunk2.default));
-
-/***/ }),
-/* 4 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* WEBPACK VAR INJECTION */(function(process) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__createStore__ = __webpack_require__(6);
+/* WEBPACK VAR INJECTION */(function(process) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__createStore__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__combineReducers__ = __webpack_require__(24);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__bindActionCreators__ = __webpack_require__(25);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__applyMiddleware__ = __webpack_require__(26);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__compose__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__utils_warning__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__compose__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__utils_warning__ = __webpack_require__(8);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createStore", function() { return __WEBPACK_IMPORTED_MODULE_0__createStore__["b"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "combineReducers", function() { return __WEBPACK_IMPORTED_MODULE_1__combineReducers__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "bindActionCreators", function() { return __WEBPACK_IMPORTED_MODULE_2__bindActionCreators__["a"]; });
@@ -2541,10 +2383,10 @@ if (process.env.NODE_ENV !== 'production' && typeof isCrushed.name === 'string' 
 }
 
 
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(5)))
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(4)))
 
 /***/ }),
-/* 5 */
+/* 4 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -2734,13 +2576,13 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 6 */
+/* 5 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ActionTypes; });
 /* harmony export (immutable) */ __webpack_exports__["b"] = createStore;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_es_isPlainObject__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_es_isPlainObject__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_symbol_observable__ = __webpack_require__(20);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_symbol_observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_symbol_observable__);
 
@@ -2993,7 +2835,7 @@ var ActionTypes = {
 }
 
 /***/ }),
-/* 7 */
+/* 6 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3065,7 +2907,7 @@ function isPlainObject(value) {
 
 
 /***/ }),
-/* 8 */
+/* 7 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3079,7 +2921,7 @@ var Symbol = __WEBPACK_IMPORTED_MODULE_0__root_js__["a" /* default */].Symbol;
 
 
 /***/ }),
-/* 9 */
+/* 8 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3107,7 +2949,7 @@ function warning(message) {
 }
 
 /***/ }),
-/* 10 */
+/* 9 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3146,6 +2988,68 @@ function compose() {
 }
 
 /***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+exports.search = search;
+exports.download = download;
+
+var _searchYoutube = __webpack_require__(28);
+
+var _searchYoutube2 = _interopRequireDefault(_searchYoutube);
+
+var _downloadMp = __webpack_require__(29);
+
+var _downloadMp2 = _interopRequireDefault(_downloadMp);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function search(searchText) {
+  return function (dispatch, getState) {
+    dispatch({ type: 'SEARCHING', payload: { searchText: searchText } });
+
+    return (0, _searchYoutube2.default)(searchText).then(function (results) {
+      return dispatch({ type: 'SEARCH_SUCCESS', payload: { searchText: searchText, results: results } });
+    }).catch(function (error) {
+      return dispatch({
+        type: 'SEARCH_FAIL',
+        payload: { error: error, searchText: searchText }
+      });
+    });
+  };
+}
+
+function download(video) {
+  return function (dispatch, getState) {
+    dispatch({ type: 'DOWNLOADING', payload: { video: video } });
+    return (0, _downloadMp2.default)(video.id, function (_ref) {
+      var progress = _ref.progress;
+
+      dispatch({
+        type: 'DOWNLOADING',
+        payload: { video: _extends({}, video, { progress: progress }) }
+      });
+    }).then(function (downloaded) {
+      dispatch({ type: 'DOWNLOAD_SUCCESS', payload: { video: video, download: download } });
+      setTimeout(function () {
+        window.location = '/download?id=' + video.id;
+      }, 250);
+    }).catch(function (error) {
+      return dispatch({ type: 'DOWNLOAD_FAIL', payload: { video: video, error: error } });
+    });
+  };
+}
+
+/***/ }),
 /* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3160,7 +3064,7 @@ var _Page = __webpack_require__(27);
 
 var _Page2 = _interopRequireDefault(_Page);
 
-var _store = __webpack_require__(3);
+var _store = __webpack_require__(35);
 
 var _store2 = _interopRequireDefault(_store);
 
@@ -3180,7 +3084,7 @@ window.store = _store2.default;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Symbol_js__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Symbol_js__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__getRawTag_js__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__objectToString_js__ = __webpack_require__(16);
 
@@ -3247,7 +3151,7 @@ var freeGlobal = typeof global == 'object' && global && global.Object === Object
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Symbol_js__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Symbol_js__ = __webpack_require__(7);
 
 
 /** Used for built-in method references. */
@@ -3503,9 +3407,9 @@ function symbolObservablePonyfill(root) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {/* harmony export (immutable) */ __webpack_exports__["a"] = combineReducers;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__createStore__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lodash_es_isPlainObject__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_warning__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__createStore__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lodash_es_isPlainObject__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_warning__ = __webpack_require__(8);
 
 
 
@@ -3636,7 +3540,7 @@ function combineReducers(reducers) {
     return hasChanged ? nextState : state;
   };
 }
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(5)))
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(4)))
 
 /***/ }),
 /* 25 */
@@ -3698,7 +3602,7 @@ function bindActionCreators(actionCreators, dispatch) {
 
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["a"] = applyMiddleware;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__compose__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__compose__ = __webpack_require__(9);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 
@@ -3765,13 +3669,13 @@ var _preact = __webpack_require__(0);
 
 var _preactRedux = __webpack_require__(1);
 
-var _store = __webpack_require__(3);
+var _actions = __webpack_require__(10);
 
-var _SearchBar = __webpack_require__(31);
+var _SearchBar = __webpack_require__(30);
 
 var _SearchBar2 = _interopRequireDefault(_SearchBar);
 
-var _SearchResults = __webpack_require__(32);
+var _SearchResults = __webpack_require__(31);
 
 var _SearchResults2 = _interopRequireDefault(_SearchResults);
 
@@ -3802,7 +3706,7 @@ var Page = function (_Component) {
 
       return (0, _preact.h)(
         'div',
-        { id: 'page', 'class': 'ui container' },
+        { id: 'page', className: 'ui container' },
         (0, _preact.h)(
           'header',
           null,
@@ -3830,7 +3734,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     search: function search(e) {
-      return dispatch((0, _store.search)(e.target.value));
+      return dispatch((0, _actions.search)(e.target.value));
     }
   };
 }
@@ -3839,35 +3743,6 @@ exports.default = (0, _preactRedux.connect)(mapStateToProps, mapDispatchToProps)
 
 /***/ }),
 /* 28 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-exports.__esModule = true;
-function createThunkMiddleware(extraArgument) {
-  return function (_ref) {
-    var dispatch = _ref.dispatch,
-        getState = _ref.getState;
-    return function (next) {
-      return function (action) {
-        if (typeof action === 'function') {
-          return action(dispatch, getState, extraArgument);
-        }
-
-        return next(action);
-      };
-    };
-  };
-}
-
-var thunk = createThunkMiddleware();
-thunk.withExtraArgument = createThunkMiddleware;
-
-exports['default'] = thunk;
-
-/***/ }),
-/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3884,7 +3759,7 @@ exports.default = function (searchText) {
 };
 
 /***/ }),
-/* 30 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3910,10 +3785,9 @@ var wait = function wait(predicate, interval) {
 
 function download(video, notifier) {
   return wait(function () {
-    return fetch('/download?id=' + encodeURIComponent(video)).then(function (res) {
+    return fetch('/fetch?id=' + encodeURIComponent(video)).then(function (res) {
       return res.json();
     }).then(function (result) {
-      console.log(result);
       if (result.progress) {
         notifier(result);
         return null;
@@ -3925,7 +3799,7 @@ function download(video, notifier) {
 }
 
 /***/ }),
-/* 31 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3964,16 +3838,16 @@ var SearchBar = function (_Component) {
 
       return (0, _preact.h)(
         "div",
-        { "class": "ui form" },
+        { className: "ui form center aligned search-bar" },
         (0, _preact.h)(
           "div",
-          { "class": "field" },
-          (0, _preact.h)(
-            "label",
-            null,
-            "Search:"
-          ),
-          (0, _preact.h)("input", { type: "text", value: searchText, onChange: onChange })
+          { className: "field" },
+          (0, _preact.h)("input", {
+            type: "text",
+            value: searchText,
+            onChange: onChange,
+            placeholder: "Search for Music"
+          })
         )
       );
     }
@@ -3985,7 +3859,7 @@ var SearchBar = function (_Component) {
 exports.default = SearchBar;
 
 /***/ }),
-/* 32 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3999,7 +3873,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _preact = __webpack_require__(0);
 
-var _SearchResult = __webpack_require__(33);
+var _SearchResult = __webpack_require__(32);
 
 var _SearchResult2 = _interopRequireDefault(_SearchResult);
 
@@ -4042,7 +3916,7 @@ var SearchResults = function (_Component) {
 exports.default = SearchResults;
 
 /***/ }),
-/* 33 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4058,11 +3932,11 @@ var _preact = __webpack_require__(0);
 
 var _preactRedux = __webpack_require__(1);
 
-var _VideoPlayer = __webpack_require__(34);
+var _AudioPlayer = __webpack_require__(33);
 
-var _VideoPlayer2 = _interopRequireDefault(_VideoPlayer);
+var _AudioPlayer2 = _interopRequireDefault(_AudioPlayer);
 
-var _AudioDownloader = __webpack_require__(35);
+var _AudioDownloader = __webpack_require__(34);
 
 var _AudioDownloader2 = _interopRequireDefault(_AudioDownloader);
 
@@ -4090,58 +3964,47 @@ var SearchResult = function (_Component) {
     value: function render(_ref) {
       var video = _ref.video,
           status = _ref.status,
-          progress = _ref.progress;
+          progress = _ref.progress,
+          playing = _ref.playing,
+          stop = _ref.stop,
+          play = _ref.play;
 
       // console.log(video)
       return (0, _preact.h)(
         'div',
-        { 'class': 'ui card' },
+        { className: 'ui card' },
         (0, _preact.h)(
           'div',
-          { 'class': 'image' },
-          (0, _preact.h)('img', { src: 'http://img.youtube.com/vi/' + video.id + '/0.jpg' })
+          { className: 'image', onClick: playing ? stop : play },
+          (0, _preact.h)(_AudioPlayer2.default, { video: video }),
+          (0, _preact.h)('img', { src: 'http://img.youtube.com/vi/' + video.id + '/hqdefault.jpg' })
         ),
         (0, _preact.h)(
           'div',
-          { 'class': 'content' },
+          { className: 'content' },
           (0, _preact.h)(
-            'a',
-            { 'class': 'header' },
+            'div',
+            { className: 'header' },
             video.title
-          ),
-          (0, _preact.h)(
-            'div',
-            { 'class': 'meta' },
-            (0, _preact.h)(
-              'span',
-              { 'class': 'date' },
-              'Joined in 2013'
-            )
-          ),
-          (0, _preact.h)(
-            'div',
-            { 'class': 'description' },
-            (0, _preact.h)(_VideoPlayer2.default, { video: video }),
-            video.description
           )
         ),
         (0, _preact.h)(
           'div',
-          { 'class': 'extra content' },
+          { className: 'extra content', style: 'text-align: center' },
           (0, _preact.h)(_AudioDownloader2.default, { video: video }),
           status === 'downloading' && (0, _preact.h)(
             'div',
-            { 'class': 'ui progress' },
+            { className: 'ui progress' },
             (0, _preact.h)(
               'div',
               {
-                'class': 'bar',
+                className: 'bar',
                 style: {
                   width: Math.round(progress) + '%'
                 } },
               (0, _preact.h)(
                 'div',
-                { 'class': 'progress' },
+                { className: 'progress' },
                 Math.round(progress),
                 '%'
               )
@@ -4159,11 +4022,13 @@ function mapStateToProps(state, _ref2) {
   var video = _ref2.video;
   var downloading = state.downloading,
       downloaded = state.downloaded,
-      failed = state.failed;
+      failed = state.failed,
+      playing = state.playing;
 
 
   var status = 'undefined';
   var progress = -1;
+  var isPlaying = playing === video;
 
   if (downloaded.find(function (v) {
     return v.id === video.id;
@@ -4184,13 +4049,26 @@ function mapStateToProps(state, _ref2) {
     status = 'downloading';
   }
 
-  return { status: status, progress: progress };
+  return { status: status, progress: progress, playing: isPlaying };
 }
 
-exports.default = (0, _preactRedux.connect)(mapStateToProps)(SearchResult);
+function mapDispatchToProps(dispatch, _ref3) {
+  var video = _ref3.video;
+
+  return {
+    play: function play() {
+      return dispatch({ type: 'PLAY_VIDEO', payload: { video: video } });
+    },
+    stop: function stop() {
+      return dispatch({ type: 'STOP_VIDEO' });
+    }
+  };
+}
+
+exports.default = (0, _preactRedux.connect)(mapStateToProps, mapDispatchToProps)(SearchResult);
 
 /***/ }),
-/* 34 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4213,40 +4091,43 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 /** @jsx h */
-var VideoPlayer = function (_Component) {
-  _inherits(VideoPlayer, _Component);
+var AudioPlayer = function (_Component) {
+  _inherits(AudioPlayer, _Component);
 
-  function VideoPlayer() {
-    _classCallCheck(this, VideoPlayer);
+  function AudioPlayer() {
+    _classCallCheck(this, AudioPlayer);
 
-    return _possibleConstructorReturn(this, (VideoPlayer.__proto__ || Object.getPrototypeOf(VideoPlayer)).apply(this, arguments));
+    return _possibleConstructorReturn(this, (AudioPlayer.__proto__ || Object.getPrototypeOf(AudioPlayer)).apply(this, arguments));
   }
 
-  _createClass(VideoPlayer, [{
+  _createClass(AudioPlayer, [{
     key: 'render',
     value: function render(_ref) {
       var video = _ref.video,
           playing = _ref.playing,
-          play = _ref.play,
-          stop = _ref.stop;
+          stop = _ref.stop,
+          play = _ref.play;
 
-      return playing ? (0, _preact.h)(
-        'i',
-        { 'class': 'large pause middle aligned icon', onClick: stop },
-        (0, _preact.h)('iframe', {
-          width: '120',
-          height: '100',
-          src: 'https://www.youtube.com/embed/' + video.id + '?autoplay=1',
-          frameborder: '0',
-          gesture: 'media',
-          allow: 'encrypted-media',
-          style: 'display: none'
-        })
-      ) : (0, _preact.h)('i', { onClick: play, 'class': 'large play middle aligned icon' });
+      return (0, _preact.h)(
+        'div',
+        { className: 'audio-player', onClick: playing ? stop : play },
+        playing ? (0, _preact.h)(
+          'i',
+          { className: 'large pause middle aligned icon' },
+          (0, _preact.h)('iframe', {
+            width: '120',
+            height: '100',
+            src: 'https://www.youtube.com/embed/' + video.id + '?autoplay=1',
+            gesture: 'media',
+            allow: 'encrypted-media',
+            style: 'display: none'
+          })
+        ) : (0, _preact.h)('i', { className: 'large play middle aligned icon' })
+      );
     }
   }]);
 
-  return VideoPlayer;
+  return AudioPlayer;
 }(_preact.Component);
 
 function mapStateToProps(_ref2, _ref3) {
@@ -4256,23 +4137,10 @@ function mapStateToProps(_ref2, _ref3) {
   return { playing: video === playing };
 }
 
-function mapDispatchToProps(dispatch, _ref4) {
-  var video = _ref4.video;
-
-  return {
-    play: function play() {
-      return dispatch({ type: 'PLAY_VIDEO', payload: { video: video } });
-    },
-    stop: function stop() {
-      return dispatch({ type: 'STOP_VIDEO' });
-    }
-  };
-}
-
-exports.default = (0, _preactRedux.connect)(mapStateToProps, mapDispatchToProps)(VideoPlayer);
+exports.default = (0, _preactRedux.connect)(mapStateToProps)(AudioPlayer);
 
 /***/ }),
-/* 35 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4288,7 +4156,7 @@ var _preact = __webpack_require__(0);
 
 var _preactRedux = __webpack_require__(1);
 
-var _store = __webpack_require__(3);
+var _actions = __webpack_require__(10);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -4313,19 +4181,26 @@ var AudioDownloader = function (_Component) {
           download = _ref.download,
           status = _ref.status;
 
-      if (status === 'downloaded') return (0, _preact.h)('i', { 'class': 'audio-downloader large check middle aligned icon' });
+      if (status === 'downloaded') return (0, _preact.h)(
+        'div',
+        { style: 'text-align: center' },
+        (0, _preact.h)('i', { className: 'large check middle aligned icon' }),
+        'Downloaded'
+      );
 
       if (status === 'error') return (0, _preact.h)('i', {
         onClick: download,
-        'class': 'audio-downloader large error middle aligned icon'
+        className: 'audio-downloader large error middle aligned icon'
       });
 
       if (status === 'downloading') return (0, _preact.h)('span', null);
 
-      return (0, _preact.h)('i', {
-        onClick: download,
-        'class': 'audio-downloader large download middle aligned icon'
-      });
+      return (0, _preact.h)(
+        'button',
+        { className: 'ui primary button', onClick: download },
+        (0, _preact.h)('i', { className: 'download icon' }),
+        'Download MP3'
+      );
     }
   }]);
 
@@ -4363,12 +4238,161 @@ function mapDispatchToProps(dispatch, _ref4) {
 
   return {
     download: function download() {
-      return dispatch((0, _store.download)(video));
+      return dispatch((0, _actions.download)(video));
     }
   };
 }
 
 exports.default = (0, _preactRedux.connect)(mapStateToProps, mapDispatchToProps)(AudioDownloader);
+
+/***/ }),
+/* 35 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _redux = __webpack_require__(3);
+
+var _reduxThunk = __webpack_require__(36);
+
+var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
+
+var _reducer = __webpack_require__(37);
+
+var _reducer2 = _interopRequireDefault(_reducer);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var INITIAL = {
+  searchText: '',
+  results: [],
+  playing: null,
+  downloading: [],
+  downloaded: [],
+  failed: []
+};
+
+exports.default = (0, _redux.createStore)(_reducer2.default, INITIAL, (0, _redux.applyMiddleware)(_reduxThunk2.default));
+
+/***/ }),
+/* 36 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+function createThunkMiddleware(extraArgument) {
+  return function (_ref) {
+    var dispatch = _ref.dispatch,
+        getState = _ref.getState;
+    return function (next) {
+      return function (action) {
+        if (typeof action === 'function') {
+          return action(dispatch, getState, extraArgument);
+        }
+
+        return next(action);
+      };
+    };
+  };
+}
+
+var thunk = createThunkMiddleware();
+thunk.withExtraArgument = createThunkMiddleware;
+
+exports['default'] = thunk;
+
+/***/ }),
+/* 37 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+var actions = {
+  SEARCHING: function SEARCHING(state, _ref) {
+    var searchText = _ref.searchText;
+    return _extends({}, state, {
+      searchText: searchText,
+      results: [],
+      status: 'searching'
+    });
+  },
+
+  SEARCH_SUCCESS: function SEARCH_SUCCESS(state, _ref2) {
+    var results = _ref2.results;
+    return _extends({}, state, { results: results });
+  },
+
+  SEARCH_FAIL: function SEARCH_FAIL(state, _ref3) {
+    var error = _ref3.error;
+    return _extends({}, state, {
+      status: 'FAILED',
+      results: []
+    });
+  },
+
+  DOWNLOADING: function DOWNLOADING(state, _ref4) {
+    var video = _ref4.video;
+    return _extends({}, state, {
+      downloading: [].concat(_toConsumableArray(state.downloading.filter(function (v) {
+        return v.id !== video.id;
+      })), [video]),
+      failed: state.failed.filter(function (v) {
+        return v.id !== video.id;
+      })
+    });
+  },
+
+  DOWNLOAD_SUCCESS: function DOWNLOAD_SUCCESS(state, _ref5) {
+    var video = _ref5.video;
+    return _extends({}, state, {
+      downloaded: [].concat(_toConsumableArray(state.downloaded), [video]),
+      downloading: state.downloading.filter(function (v) {
+        return v.id !== video.id;
+      })
+    });
+  },
+
+  DOWNLOAD_FAIL: function DOWNLOAD_FAIL(state, _ref6) {
+    var video = _ref6.video;
+    return _extends({}, state, {
+      downloading: state.downloading.filter(function (v) {
+        return v.id !== video.id;
+      }),
+      failed: [].concat(_toConsumableArray(state.failed), [video])
+    });
+  },
+
+  PLAY_VIDEO: function PLAY_VIDEO(state, _ref7) {
+    var video = _ref7.video;
+    return _extends({}, state, { playing: video });
+  },
+
+  STOP_VIDEO: function STOP_VIDEO(state) {
+    return _extends({}, state, {
+      playing: null
+    });
+  }
+};
+
+exports.default = function (state, action) {
+  return action && actions[action.type] ? actions[action.type](state, action.payload || {}) : state;
+};
 
 /***/ })
 /******/ ]);

@@ -2,39 +2,33 @@ import { h, Component } from 'preact'
 
 import { connect } from 'preact-redux'
 
-import VideoPlayer from './VideoPlayer'
+import AudioPlayer from './AudioPlayer'
 import AudioDownloader from './AudioDownloader'
 
 /** @jsx h */
 
 class SearchResult extends Component {
-  render({ video, status, progress }) {
+  render({ video, status, progress, playing, stop, play }) {
     // console.log(video)
     return (
-      <div class="ui card">
-        <div class="image">
-          <img src={`http://img.youtube.com/vi/${video.id}/0.jpg`} />
+      <div className="ui card">
+        <div className="image" onClick={playing ? stop : play}>
+          <AudioPlayer video={video} />
+          <img src={`http://img.youtube.com/vi/${video.id}/hqdefault.jpg`} />
         </div>
-        <div class="content">
-          <a class="header">{video.title}</a>
-          <div class="meta">
-            <span class="date">Joined in 2013</span>
-          </div>
-          <div class="description">
-            <VideoPlayer video={video} />
-            {video.description}
-          </div>
+        <div className="content">
+          <div className="header">{video.title}</div>
         </div>
-        <div class="extra content">
+        <div className="extra content" style="text-align: center">
           <AudioDownloader video={video} />
           {status === 'downloading' && (
-            <div class="ui progress">
+            <div className="ui progress">
               <div
-                class="bar"
+                className="bar"
                 style={{
                   width: Math.round(progress) + '%'
                 }}>
-                <div class="progress">{Math.round(progress)}%</div>
+                <div className="progress">{Math.round(progress)}%</div>
               </div>
             </div>
           )}
@@ -45,10 +39,11 @@ class SearchResult extends Component {
 }
 
 function mapStateToProps(state, { video }) {
-  const { downloading, downloaded, failed } = state
+  const { downloading, downloaded, failed, playing } = state
 
   let status = 'undefined'
   let progress = -1
+  const isPlaying = playing === video
 
   if (downloaded.find(v => v.id === video.id)) {
     progress = -1
@@ -61,7 +56,14 @@ function mapStateToProps(state, { video }) {
     status = 'downloading'
   }
 
-  return { status, progress }
+  return { status, progress, playing: isPlaying }
 }
 
-export default connect(mapStateToProps)(SearchResult)
+function mapDispatchToProps(dispatch, { video }) {
+  return {
+    play: () => dispatch({ type: 'PLAY_VIDEO', payload: { video } }),
+    stop: () => dispatch({ type: 'STOP_VIDEO' })
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchResult)

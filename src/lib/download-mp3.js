@@ -8,10 +8,9 @@ const wait = (predicate, interval) =>
 export default function download(video, notifier) {
   return wait(
     () =>
-      fetch('/download?id=' + encodeURIComponent(video))
+      fetch('/fetch?id=' + encodeURIComponent(video))
         .then(res => res.json())
         .then(result => {
-          console.log(result)
           if (result.progress) {
             notifier(result)
             return null

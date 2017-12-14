@@ -1,6 +1,6 @@
 import { h, Component } from 'preact'
 import { connect } from 'preact-redux'
-import { search } from './store'
+import { search } from './redux/actions'
 
 import SearchBar from './SearchBar'
 import SearchResults from './SearchResults'
@@ -9,7 +9,7 @@ import SearchResults from './SearchResults'
 class Page extends Component {
   render({ searchText, search, videos }) {
     return (
-      <div id="page" class="ui container">
+      <div id="page" className="ui container">
         <header>
           <SearchBar searchText={searchText} onChange={search} />
         </header>

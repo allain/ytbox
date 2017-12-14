@@ -40,9 +40,8 @@ downloader.on('progress', data => {
   console.log(data)
   downloads[data.videoId] = data
 })
+
 downloader.on('finished', (err, data) => {
-  console.error(err)
-  console.log(data)
   if (err) {
     downloads[data.videoId] = err
   } else {
@@ -51,11 +50,11 @@ downloader.on('finished', (err, data) => {
 })
 
 downloader.on('error', err => {
-  console.log(err)
+  console.error(err)
   downloads[err.videoId] = err
 })
 
-app.get('/download', (req, res) => {
+app.get('/fetch', (req, res) => {
   const { id } = req.query
   if (!downloads[id]) {
     downloads[id] = { status: 'requested' }
@@ -64,6 +63,17 @@ app.get('/download', (req, res) => {
   }
 
   return res.json(downloads[id])
+})
+
+app.get('/download', (req, res) => {
+  const { id } = req.query
+
+  if (downloads[id].file) {
+    res.download(downloads[id].file) // Set disposition and send it.
+    return
+  }
+
+  return res.status(404).send('MP3 Not Found')
 })
 
 app.listen(3000)

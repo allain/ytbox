@@ -1,9 +1,9 @@
-import { h, render, Component } from 'preact'
-import { Provider, connect } from 'preact-redux'
+import { h, render } from 'preact'
+import { Provider } from 'preact-redux'
 
 import Page from './Page'
 
-import store from './store'
+import store from './redux/store'
 
 window.store = store
 

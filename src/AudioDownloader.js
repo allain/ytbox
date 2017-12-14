@@ -1,29 +1,34 @@
 import { h, Component } from 'preact'
 import { connect } from 'preact-redux'
 
-import { download } from './store'
+import { download } from './redux/actions'
 
 /** @jsx h */
 class AudioDownloader extends Component {
   render({ video, download, status }) {
     if (status === 'downloaded')
-      return <i class={`audio-downloader large check middle aligned icon`} />
+      return (
+        <div style="text-align: center">
+          <i className={`large check middle aligned icon`} />
+          Downloaded
+        </div>
+      )
 
     if (status === 'error')
       return (
         <i
           onClick={download}
-          class={`audio-downloader large error middle aligned icon`}
+          className={`audio-downloader large error middle aligned icon`}
         />
       )
 
     if (status === 'downloading') return <span />
 
     return (
-      <i
-        onClick={download}
-        class={`audio-downloader large download middle aligned icon`}
-      />
+      <button className="ui primary button" onClick={download}>
+        <i className={`download icon`} />
+        Download MP3
+      </button>
     )
   }
 }
