@@ -76,4 +76,4 @@ app.get('/download', (req, res) => {
   return res.status(404).send('MP3 Not Found')
 })
 
-app.listen(3000)
+app.listen('0.0.0.0', 6000)
